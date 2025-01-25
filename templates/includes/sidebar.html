@@ -1,0 +1,47 @@
+<div class="w-full md:w-1/4 lg:w-1/5 px-4 mb-8">
+    <div class="bg-white rounded-lg shadow-md p-6 animate-fade-in">
+        <h2 class="text-xl font-semibold mb-4">Filters</h2>
+        <form method="get">
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Categories</h3>
+                <div class="space-y-2">
+                    {% for category in categories %}
+                    <label class="flex items-center">
+                        <input type="checkbox" name="category" value="{{ category.slug }}" class="form-checkbox text-blue-500"
+                        {% if category.slug in selected_categories %} checked {% endif %}>
+                        <span class="ml-2">{{ category.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Sort by</h3>
+                <select name="sort" class="w-full border rounded-md py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500">
+                    <option value="latest" {% if current_sort == 'latest' %} selected {% endif %}>Latest</option>
+                    <option value="popular" {% if current_sort == 'popular' %} selected {% endif %}>Most Popular</option>
+                    <option value="oldest" {% if current_sort == 'oldest' %} selected {% endif %}>Oldest</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <h3 class="font-medium mb-2">Date Range</h3>
+                <input type="date" name="start_date" value="{{ start_date }}" class="w-full border rounded-md py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500 mb-2">
+                <input type="date" name="end_date" value="{{ end_date }}" class="w-full border rounded-md py-2 px-3 text-gray-700 focus:outline-none focus:border-blue-500">
+            </div>
+           <div class="mb-4">
+    <h3 class="font-medium mb-2">Hashtags</h3>
+    <div class="space-y-2">
+        {% for tag in tags %}
+        <label class="flex items-center">
+            <input type="checkbox" name="tag" value="{{ tag.slug }}" class="form-checkbox text-blue-500"
+            {% if tag.slug in selected_tags %} checked {% endif %}>
+            <span class="ml-2">#{{ tag.name }}</span>
+        </label>
+        {% endfor %}
+    </div>
+</div>
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 mt-4">
+                Apply Filters
+            </button>
+        </form>
+    </div>
+</div>

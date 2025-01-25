@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %} {{ post.name }} - Blog {% endblock %}
+
+{% block content %}
+<main class="container mx-auto px-6 py-8">
+    <article class="bg-white rounded-lg shadow-md overflow-hidden">
+        <img src="{{ post.image.url }}" alt="{{ post.name }} cover image" class="w-full h-64 object-cover">
+        <div class="p-6 md:p-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ post.name }}</h1>
+            <div class="flex items-center mb-4">
+                <img src="{{ post.author.profile_picture.url }}" alt="{{ post.author }}" class="w-10 h-10 rounded-full mr-3">
+                <div>
+                    <p class="font-semibold text-gray-800">{{ post.author }}</p>
+                    <p class="text-sm text-gray-600">Published on {{ post.created_at|date:"Y-m-d" }}</p>
+                    <span class="text-sm text-gray-500">{{ 5 }} min read</span>
+                </div>
+            </div>
+            <div class="prose max-w-none mb-8">
+                <p>{{ post.description }}</p>
+            </div>
+            <div class="flex flex-wrap mt-4">
+                {% for tag in post.tag.all %}
+                    <span class="text-xs bg-{{ forloop.counter0|color_for_index }}-100 text-{{ forloop.counter0|color_for_index }}-800 rounded-full px-2 py-1 mr-2 mb-2">#{{ tag.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </article>
+
+    <section class="mt-12 bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-2xl font-bold mb-6">Comments</h2>
+        <div class="space-y-6">
+            {% for comment in comments %}
+                <div class="flex">
+                    <div>
+                        <h3 class="font-semibold">{{ comment.name }}</h3>
+                        <p class="text-gray-600 text-sm mb-2">Posted on {{ comment.created_at|date:"Y-m-d" }}</p>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+
+        <form method="post" class="mt-8">
+            {% csrf_token %}
+            <h3 class="text-xl font-semibold mb-4">Add a Comment</h3>
+            <div class="mb-4">
+                {{ form.name.errors }}
+                {{ form.name.label_tag }}
+                {{ form.name }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.email.errors }}
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.comment.errors }}
+                {{ form.comment.label_tag }}
+                {{ form.comment }}
+            </div>
+
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit Comment</button>
+        </form>
+    </section>
+</main>
+{% endblock %}

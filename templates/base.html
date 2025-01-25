@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'includes/meta.html' %}
+    <title>{% block title %}Modern Blog{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-100 font-sans">
+    {% include 'includes/header.html' %}
+
+    <div class="container mx-auto px-6 py-8">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% include 'includes/footer.html' %}
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
